@@ -1,0 +1,28 @@
+body {
+  background-color: #f4f4f4;
+  color: #333333;
+}
+body header {
+  background-color: #208DC3;
+}
+body header .dropdown .btn {
+  color: #f4f4f4;
+}
+body header .dropdown:active {
+  color: #B7B7B7;
+}
+body header .dropdown .dropdown-menu {
+  background-color: #f4f4f4;
+}
+body header .dropdown .dropdown-menu .dropdown-item {
+  background-color: #f4f4f4;
+  color: #333333;
+}
+body main .table {
+  color: #333333;
+  background-color: #f4f4f4;
+}
+body footer {
+  background-color: #208DC3;
+  color: #f4f4f4;
+}/*# sourceMappingURL=style.css.map */
