@@ -1,0 +1,66 @@
+$background-color: #f4f4f4
+$text-color: #333333
+$main-color: #208DC3
+$acent-color: #F0BA32
+$nav-hover-color: #B7B7B7
+$dropdown-click-color: #B7B7B7
+
+body
+    background-color: $background-color
+    color: $text-color
+
+    header
+        background-color: $main-color
+
+        // .navbar-toggler
+        //     border: none
+
+        //     &:focus
+        //         box-shadow: none
+
+        //     .navbar-toggler-icon
+        //         background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(244,244,244,1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E")
+
+
+        // .nav-link
+        //     color: $background-color
+
+        //     &:hover
+        //         color: $nav-hover-color
+
+        // @media (max-width: 576px)
+        //     .offcanvas-start
+        //         width: 250px
+        //     .navbar-nav
+        //         flex-direction: column
+        //     .nav-item
+        //         margin-bottom: 10px
+        //     .offcanvas-header
+        //         background-color: $main-color
+        //     .offcanvas-body
+        //         background-color: $main-color
+        //     .btn-close
+        //         color: $background-color
+
+        .dropdown
+            .btn
+                color: $background-color
+
+            &:active
+                color: $dropdown-click-color
+
+            .dropdown-menu
+                background-color: $background-color
+
+                .dropdown-item
+                    background-color: $background-color
+                    color: $text-color
+
+    main
+        .table
+            color: $text-color
+            background-color: $background-color
+
+    footer
+        background-color: $main-color
+        color: $background-color
