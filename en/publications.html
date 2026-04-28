@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Publications — Koki Ozawa</title>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YJP7Y974F9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-YJP7Y974F9');
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&family=Noto+Serif+JP:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#fbfaf6;--header-bg:#f3f0e6;--surface:#ffffff;--ink:#1d2230;--muted:#5b6477;
+  --line:#e7e2d3;--primary:#1f6f9b;--accent:#c89a2b;
+}
+@media(prefers-color-scheme:dark){
+  :root{
+    --bg:#15181f;--header-bg:#1c2029;--surface:#1c2029;--ink:#e8e6df;--muted:#9ca3b1;
+    --line:#2a2f3a;--primary:#5fb3dc;--accent:#dcb44e;
+  }
+}
+html,body{height:100%}
+body{font-family:"Inter","Noto Sans JP","Hiragino Kaku Gothic ProN",sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;}
+/* header */
+.hp-top{position:sticky;top:0;z-index:100;border-bottom:1px solid var(--line);background:var(--header-bg);padding:14px 40px;display:flex;align-items:center;justify-content:space-between;gap:24px;}
+.hp-mark{display:flex;align-items:baseline;gap:10px;text-decoration:none;color:inherit}
+.hp-mark b{font-family:"Noto Serif JP",serif;font-weight:600;font-size:18px;letter-spacing:.02em}
+.hp-mark span{font-size:11px;color:var(--muted);letter-spacing:.18em;text-transform:uppercase}
+.hp-tabs{display:flex;gap:2px}
+.hp-tab{font-size:13px;letter-spacing:.04em;padding:10px 18px;text-decoration:none;color:var(--muted);border-bottom:2px solid transparent;font-weight:500;display:inline-block;}
+.hp-tab[aria-current="page"]{color:var(--primary);border-bottom-color:var(--primary)}
+.hp-lang{font-size:11px;color:var(--muted);letter-spacing:.18em}
+.hp-lang a{color:var(--muted);text-decoration:none;padding:0 6px}
+.hp-lang a.on{color:var(--ink);font-weight:600}
+/* page */
+.hp-page{padding:48px 56px 80px;max-width:1100px;margin:0 auto}
+/* page heading */
+.hp-role{font-size:12px;letter-spacing:.16em;color:var(--accent);text-transform:uppercase;margin-bottom:8px}
+.hp-h1{font-family:"Noto Serif JP",serif;font-weight:600;font-size:30px;letter-spacing:.02em;margin-bottom:4px}
+.hp-h1-en{font-size:11px;color:var(--muted);letter-spacing:.32em;text-transform:uppercase;margin-bottom:32px}
+/* section */
+.hp-section{margin-top:40px}
+.hp-section h2{font-family:"Noto Serif JP",serif;font-weight:600;font-size:15px;letter-spacing:.18em;text-transform:uppercase;color:var(--primary);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--line);display:flex;align-items:baseline;gap:12px;}
+.hp-section h2::before{content:"";display:inline-block;width:6px;height:6px;background:var(--accent);transform:rotate(45deg);flex-shrink:0}
+.hp-section h2 small{font-family:"Noto Sans JP",sans-serif;font-weight:400;font-size:11px;letter-spacing:.04em;color:var(--muted);text-transform:none;margin-left:auto}
+/* journal */
+.hp-pub{padding:18px 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:48px 1fr;gap:16px;}
+.hp-pub .num{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:11px;color:var(--muted);letter-spacing:.06em}
+.hp-pub .title{font-weight:600;font-size:15px;margin-bottom:6px;line-height:1.5}
+.hp-pub .authors{font-size:12px;color:var(--muted);margin-bottom:6px}
+.hp-pub .meta{font-size:13px}
+.hp-pub .meta i{font-style:italic}
+.hp-pub .doi{display:inline-block;margin-top:8px;font-family:"JetBrains Mono",ui-monospace,monospace;font-size:11px;color:var(--primary);text-decoration:none;border:1px solid var(--line);padding:3px 8px;border-radius:2px;}
+.hp-pub .doi:hover{border-color:var(--primary)}
+/* conference */
+.hp-conf{display:grid;grid-template-columns:90px 1fr 110px;gap:18px;padding:14px 0;border-bottom:1px dotted var(--line);font-size:13px;align-items:baseline;}
+.hp-conf .date{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:11px;color:var(--muted)}
+.hp-conf .ttl{font-weight:500;line-height:1.5}
+.hp-conf .ttl a{color:inherit;text-decoration:none;border-bottom:1px solid var(--line)}
+.hp-conf .ttl a:hover{border-bottom-color:var(--primary);color:var(--primary)}
+.hp-conf .auth{font-size:11px;color:var(--muted);margin-top:4px}
+.hp-conf .venue{font-size:11px;color:var(--muted);margin-top:2px;font-style:italic}
+.hp-conf .type{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:10px;letter-spacing:.16em;color:var(--accent);text-transform:uppercase;text-align:right}
+.hp-note{font-size:11px;color:var(--muted);margin-top:12px}
+/* works */
+.hp-works{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:8px}
+.hp-work{background:var(--surface);border:1px solid var(--line)}
+.hp-work img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block;background:#eee}
+.hp-work-body{padding:18px}
+.hp-work h4{font-family:"Noto Serif JP",serif;font-weight:600;font-size:18px;margin-bottom:6px}
+.hp-work .since{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:10px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;margin-bottom:10px}
+.hp-work p{font-size:13px;color:var(--muted);margin-bottom:14px}
+.hp-work a{display:inline-block;font-size:12px;color:var(--primary);text-decoration:none;border-bottom:1px solid var(--primary);margin-right:14px}
+/* footer */
+.hp-foot{margin-top:64px;padding-top:24px;border-top:1px solid var(--line);font-size:11px;color:var(--muted);letter-spacing:.08em;text-align:center}
+/* ext icon */
+.ext-icon{vertical-align:.05em;opacity:.55}
+.hp-burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;margin-left:auto}
+.hp-burger span{display:block;width:22px;height:2px;background:var(--ink);border-radius:2px;transition:transform .25s,opacity .25s}
+@media(max-width:768px){
+  .hp-top{padding:12px 20px;flex-wrap:wrap}
+  .hp-burger{display:flex;order:1}
+  .hp-tabs{display:none;width:100%;order:2}
+  .hp-lang{display:none;width:100%;order:3}
+  .hp-top.is-open .hp-tabs{display:flex;flex-direction:column;gap:0;border-top:1px solid var(--line);margin-top:8px;padding-top:4px}
+  .hp-top.is-open .hp-lang{display:flex;justify-content:flex-start;padding:8px 0 4px;border-top:1px solid var(--line)}
+  .hp-tab{padding:12px 4px;border-bottom:none;border-left:3px solid transparent}
+  .hp-tab[aria-current="page"]{border-left-color:var(--primary)}
+  .hp-top.is-open .hp-burger span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .hp-top.is-open .hp-burger span:nth-child(2){opacity:0}
+  .hp-top.is-open .hp-burger span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  .hp-page{padding:32px 20px 60px}
+  .hp-works{grid-template-columns:1fr}
+  .hp-conf{grid-template-columns:1fr;gap:4px}
+  .hp-conf .type{text-align:left}
+}
+</style>
+</head>
+<body>
+<header class="hp-top">
+  <a class="hp-mark" href="index.html"><b>Koki Ozawa</b><span>Materials Informatics</span></a>
+  <nav class="hp-tabs" role="navigation">
+    <a class="hp-tab" href="index.html">Profile</a>
+    <a class="hp-tab" href="publications.html" aria-current="page">Publications</a>
+    <a class="hp-tab" href="skills.html">Skills</a>
+  </nav>
+  <div class="hp-lang"><a href="../publications.html">JA</a>/<a class="on">EN</a></div>
+  <button class="hp-burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+</header>
+<main class="hp-page">
+<div style="margin-bottom:36px">
+  <div class="hp-role">Publications</div>
+  <h1 class="hp-h1">Research Output</h1>
+  <div class="hp-h1-en">Journals · Conferences · Works</div>
+</div>
+
+<div class="hp-section">
+  <h2>Peer-Reviewed Journals <small>2</small></h2>
+
+  <article class="hp-pub">
+    <div class="num">[02]</div>
+    <div>
+      <div class="title">A wearable AI sensing system for non-invasive and experimental characterization of biological tissue hardness</div>
+      <div class="authors">Kenta Nara, Ayana Hirayama, Yasuyuki Miura, Yoshihito Takabe, Riku Sasaki, Koki Ozawa, Yi-Fei Wang, Yasunori Takeda, Daisuke Kumaki, Hiroyuki Matsui, Tomohito Sekine</div>
+      <div class="meta"><i>Chemical Engineering Journal</i>, <b>511</b>, 162180 (2025).</div>
+      <a class="doi" href="https://doi.org/10.1016/j.cej.2025.162180" target="_blank" rel="noopener">DOI 10.1016/j.cej.2025.162180 <svg class="ext-icon" width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3h6v6M3 9l6-6"/></svg></a>
+    </div>
+  </article>
+
+  <article class="hp-pub">
+    <div class="num">[01]</div>
+    <div>
+      <div class="title">Statistical analysis of interatomic transfer integrals for exploring high-mobility organic semiconductors</div>
+      <div class="authors">Koki Ozawa, Tomoharu Okada, Hiroyuki Matsui</div>
+      <div class="meta"><i>Sci. Technol. Adv. Mater.</i>, <b>25</b>, 2354652 (2024).</div>
+      <a class="doi" href="https://doi.org/10.1080/14686996.2024.2354652" target="_blank" rel="noopener">DOI 10.1080/14686996.2024.2354652 <svg class="ext-icon" width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3h6v6M3 9l6-6"/></svg></a>
+    </div>
+  </article>
+</div>
+
+<div class="hp-section">
+  <h2>International Conferences <small>5</small></h2>
+
+  <div class="hp-conf"><div class="date">2025.12.5</div><div><div class="ttl">Exploring Planar Organic Semiconductor Polymers via Database and Quantum Chemical Calculation</div><div class="auth">◯ Yoshifumi Kubo, Yu Homma, Koki Ozawa, Tomoharu Okada, Hiroyuki Matsui</div><div class="venue">The 13th International Conference on Smart Systems Engineering 2025</div></div><div class="type">Poster</div></div>
+
+  <div class="hp-conf"><div class="date">2025.12.5</div><div><div class="ttl">Wire Resistance Cancelling in Flexible Thermistor Arrays with Carbon Black Wires</div><div class="auth">◯ Yuto Izumino, Seiga Shinmura, Yudai Hemmi, Koki Ozawa, Hiroyuki Matsui</div><div class="venue">The 13th International Conference on Smart Systems Engineering 2025</div></div><div class="type">Poster</div></div>
+
+  <div class="hp-conf"><div class="date">2024.11.12</div><div><div class="ttl">Exploring Ring Structures with High Transfer Integrals for High-Mobility Organic Semiconductors</div><div class="auth">◯ Koki Ozawa, Tomoharu Okada, Hiroyuki Matsui</div><div class="venue">The 12th International Conference on Smart Systems Engineering 2024</div></div><div class="type">Poster</div></div>
+
+  <div class="hp-conf"><div class="date">2024.5.23</div><div><div class="ttl">Printed Wind Velocity Sensor Using Organic Semiconductors</div><div class="auth">◯ Seiga Shinmura, Ryouta Kobayashi, Koki Ozawa, Hiroyuki Matsui</div><div class="venue">The 7th Event of the Young Researchers Society for Flexible and Stretchable Electronics</div></div><div class="type">Poster</div></div>
+
+  <div class="hp-conf"><div class="date">2023.5.18</div><div><div class="ttl"><a href="https://fsejp.weebly.com/5th-event-may-18-19-2023.html" target="_blank" rel="noopener">Search for High Mobility π-Conjugated Cores Based on Interatomic Transfer Integrals</a></div><div class="auth">◯ Koki Ozawa, Tomoharu Okada, Hiroyuki Matsui</div><div class="venue">The 5th Event of the Young Researchers Society for Flexible and Stretchable Electronics</div></div><div class="type">Poster</div></div>
+
+  <p class="hp-note">◯ is the presenter</p>
+</div>
+
+<div class="hp-section">
+  <h2>Domestic Conferences <small>14</small></h2>
+
+  <div class="hp-conf"><div class="date">2026.3.17</div><div><div class="ttl"><a href="https://pub.confit.atlas.jp/en/event/jsap2026s/presentation/17p-M_B104-2" target="_blank" rel="noopener">Fused Ring Database for Organic Semiconductor Material Discovery</a></div><div class="auth">◯ Hiroyuki Matsui, Koki Ozawa</div><div class="venue">The 73rd JSAP Spring Meeting 2026</div></div><div class="type">Oral</div></div>
+
+  <div class="hp-conf"><div class="date">2026.3.17</div><div><div class="ttl"><a href="https://pub.confit.atlas.jp/en/event/jsap2026s/presentation/17p-PB1-2" target="_blank" rel="noopener">Exploration of Atomic Pairs for High-Mobility n-Type Organic Semiconductors Based on Interatomic Transfer Integrals</a></div><div class="auth">◯ Hiroyuki Matsui, Koki Ozawa</div><div class="venue">The 73rd JSAP Spring Meeting 2026</div></div><div class="type">Poster</div></div>
+
+  <div class="hp-conf"><div class="date">2026.3.16</div><div><div class="ttl"><a href="https://pub.confit.atlas.jp/en/event/jsap2026s/presentation/16p-M_B104-12" target="_blank" rel="noopener">Theoretical Formula of Mobility Tensor for Organic Semiconductor Crystals Consistent with Hopping Path Continuity</a></div><div class="auth">◯ Hiroyuki Matsui, Koki Ozawa</div><div class="venue">The 73rd JSAP Spring Meeting 2026</div></div><div class="type">Oral</div></div>
+
+  <div class="hp-conf"><div class="date">2026.3.16</div><div><div class="ttl"><a href="https://pub.confit.atlas.jp/en/event/jsap2026s/presentation/16p-M_B104-13" target="_blank" rel="noopener">Validation of Mobility Tensor for Organic Semiconductor Crystals Consistent with Hopping Path Continuity</a></div><div class="auth">◯ Koki Ozawa, Hiroyuki Matsui</div><div class="venue">The 73rd JSAP Spring Meeting 2026</div></div><div class="type">Oral</div></div>
+
+  <div class="hp-conf"><div class="date">2026.3.15</div><div><div class="ttl"><a href="https://pub.confit.atlas.jp/en/event/jsap2026s/presentation/15p-WL1_201-3" target="_blank" rel="noopener">Synergy of Experiment, Calculation, and Data Science for Organic Transistor Study</a></div><div class="auth">◯ Hiroyuki Matsui, Tomoharu Okada, Koki Ozawa, et al.</div><div class="venue">The 73rd JSAP Spring Meeting 2026</div></div><div class="type">Oral</div></div>
+
+  <div class="hp-conf"><div class="date">2025.9.10</div><div><div class="ttl"><a href="https://pub.confit.atlas.jp/en/event/jsap2025a/presentation/10a-P03-16" target="_blank" rel="noopener">Searching for high-mobility crystal structures by lattice axis length engineering</a></div><div class="auth">◯ Yu Homma, Tomoharu Okada, Koki Ozawa, Hiroyuki Matsui</div><div class="venue">The 86th JSAP Autumn Meeting 2025</div></div><div class="type">Poster</div></div>
+
+  <div class="hp-conf"><div class="date">2025.9.8</div><div><div class="ttl"><a href="https://pub.confit.atlas.jp/en/event/jsap2025a/presentation/8p-P11-3" target="_blank" rel="noopener">Machine Learning of Hamiltonian Matrices by Linear Combination of Rotation-Equivariant Matrices for Rapid Quantum Chemistry Calculations</a></div><div class="auth">◯ Jintaro Endo, Koki Ozawa, Hiroyuki Matsui</div><div class="venue">The 86th JSAP Autumn Meeting 2025</div></div><div class="type">Poster</div></div>
+
+  <div class="hp-conf"><div class="date">2025.3.15</div><div><div class="ttl"><a href="https://pub.confit.atlas.jp/en/event/jsap2025s/presentation/15a-P02-13" target="_blank" rel="noopener">Classification of Biological Tissues Using Soft Hardness Sensor and Machine Learning</a></div><div class="auth">◯ Koki Ozawa, Kenta Nara, Ayana Hirayama, Yi-Fei Wang, Tomohito Sekine, Hiroyuki Matsui</div><div class="venue">The 72nd JSAP Spring Meeting 2025</div></div><div class="type">Poster</div></div>
+
+  <div class="hp-conf"><div class="date">2024.10.20</div><div><div class="ttl">Searching for high-mobility crystal structures by lattice axis length engineering of organic semiconductors</div><div class="auth">◯ Yu Homma, Tomoharu Okada, Koki Ozawa, Hiroyuki Matsui</div><div class="venue">SCCJ Autumn Meeting 2024</div></div><div class="type">Poster</div></div>
+
+  <div class="hp-conf"><div class="date">2024.9.18</div><div><div class="ttl"><a href="https://pub.confit.atlas.jp/en/event/jsap2024a/presentation/18p-P08-14" target="_blank" rel="noopener">Exploring Ring Structures with High Transfer Integrals for High-Mobility Organic Semiconductors</a></div><div class="auth">◯ Koki Ozawa, Tomoharu Okada, Hiroyuki Matsui</div><div class="venue">The 85th JSAP Autumn Meeting 2024</div></div><div class="type">Poster</div></div>
+
+  <div class="hp-conf"><div class="date">2023.11.24</div><div><div class="ttl"><a href="https://sites.google.com/view/sccj2023au/%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0" target="_blank" rel="noopener">Virtual Screening of High-Performance Solution-Processable Organic Semiconductors</a></div><div class="auth">◯ Koki Ozawa, Tomoharu Okada, Hiroyuki Matsui</div><div class="venue">SCCJ Autumn Meeting 2023 in Takamatsu</div></div><div class="type">Poster</div></div>
+
+  <div class="hp-conf"><div class="date">2023.3.18</div><div><div class="ttl"><a href="https://confit.atlas.jp/guide/event/jsap2023s/subject/18p-B409-3/advanced" target="_blank" rel="noopener">Highly stable printed temperature sensor using polymer semiconductors</a></div><div class="auth">◯ Seiga Shinmura, Ryota Kobayashi, Koki Ozawa, Hiroyuki Matsui</div><div class="venue">The 70th JSAP Spring Meeting 2023</div></div><div class="type">Oral</div></div>
+
+  <div class="hp-conf"><div class="date">2022.9.20</div><div><div class="ttl"><a href="https://confit.atlas.jp/guide/event/jsap2022a/subject/20a-B104-4/tables" target="_blank" rel="noopener">Search for High Mobility π-Conjugated Cores Based on Interatomic Transfer Integrals</a></div><div class="auth">◯ Koki Ozawa, Tomoharu Okada, Hiroyuki Matsui</div><div class="venue">The 83rd JSAP Autumn Meeting 2022</div></div><div class="type">Oral</div></div>
+
+  <div class="hp-conf"><div class="date">2022.7.20</div><div><div class="ttl">Search for High Mobility π-Conjugated Cores Based on Interatomic Transfer Integrals</div><div class="auth">◯ Koki Ozawa, Tomoharu Okada, Hiroyuki Matsui</div><div class="venue">The 17th Graduate Student Workshop on Organic Devices and Physical Properties</div></div><div class="type">Poster</div></div>
+
+  <p class="hp-note">◯ is the presenter</p>
+</div>
+
+<div class="hp-section">
+  <h2>Open-source Works</h2>
+  <div class="hp-works">
+    <div class="hp-work">
+      <img src="../img/mcal.png" alt="mcal"/>
+      <div class="hp-work-body">
+        <h4>mcal</h4>
+        <div class="since">2026.1.20 – Present</div>
+        <p>Program for calculating mobility tensors of organic semiconductors, developed and released as open-source software for use by other researchers.</p>
+        <a href="https://github.com/matsui-lab-yamagata/mcal" target="_blank" rel="noopener">GitHub <svg class="ext-icon" width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3h6v6M3 9l6-6"/></svg></a>
+        <a href="https://matsui-lab.yz.yamagata-u.ac.jp/softwares-e.html#:~:text=Program%20for%20the%20calculation%20of%20mobility%20tensor%3A%20mcal" target="_blank" rel="noopener">Description <svg class="ext-icon" width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3h6v6M3 9l6-6"/></svg></a>
+      </div>
+    </div>
+    <div class="hp-work">
+      <img src="../img/tcal.jpg" alt="tcal"/>
+      <div class="hp-work-body">
+        <h4>tcal</h4>
+        <div class="since">2023.11.2 – Present</div>
+        <p>Program for calculating interatomic transfer integrals used in the paper (Sci. Technol. Adv. Mater. 2024), released as open-source software.</p>
+        <a href="https://github.com/matsui-lab-yamagata/tcal" target="_blank" rel="noopener">GitHub <svg class="ext-icon" width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3h6v6M3 9l6-6"/></svg></a>
+        <a href="https://matsui-lab.yz.yamagata-u.ac.jp/softwares-e.html#:~:text=Program%20for%20the%20calculation%20of%20transfer%20integral%3A%20tcal" target="_blank" rel="noopener">Description <svg class="ext-icon" width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3h6v6M3 9l6-6"/></svg></a>
+      </div>
+    </div>
+    <div class="hp-work">
+      <img src="../img/yu-canvas_en.png" alt="YU canvas"/>
+      <div class="hp-work-body">
+        <h4>YU canvas</h4>
+        <div class="since">2020.4.8 – Present</div>
+        <p>Molecular design tool. Responsible for the part of generating similar molecules by AI.</p>
+        <a href="https://yu-canvas.herokuapp.com/" target="_blank" rel="noopener">Special Page <svg class="ext-icon" width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3h6v6M3 9l6-6"/></svg></a>
+        <a href="https://matsui-lab.yz.yamagata-u.ac.jp/softwares-e.html#:~:text=Molecule%20Design%20Tool%3A%20YU%20canvas" target="_blank" rel="noopener">Description <svg class="ext-icon" width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3h6v6M3 9l6-6"/></svg></a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="hp-foot"><span>© 2024-2026 Koki Ozawa</span></div>
+</main>
+<script>
+(function(){var h=document.querySelector('.hp-top'),b=document.querySelector('.hp-burger');b.addEventListener('click',function(){var o=h.classList.toggle('is-open');b.setAttribute('aria-expanded',o);});document.querySelectorAll('.hp-tab').forEach(function(a){a.addEventListener('click',function(){h.classList.remove('is-open');b.setAttribute('aria-expanded','false');});});})();
+</script>
+</body>
+</html>
