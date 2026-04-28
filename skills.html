@@ -17,6 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&family=Noto+Serif+JP:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet"/>
+<link rel="icon" type="image/png" sizes="512x512" href="img/favicon.png"/>
 <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
@@ -24,6 +25,7 @@
 <header class="hp-top">
   <a class="hp-mark" href="index.html">
     <svg class="hp-pleiades" width="46" height="46" viewBox="0 0 46 46" fill="none" aria-hidden="true">
+      <path d="M12 34 L18 26 L23 19 L31 15 L34 20 L35 27 L28 32 L18 26" stroke-width=".5" class="hp-star-line"/>
       <circle cx="18" cy="26" r="2.6" class="hp-star-gold"><title>Alcyone</title></circle>
       <circle cx="12" cy="34" r="2.2" class="hp-star-gold"><title>Atlas</title></circle>
       <circle cx="8" cy="27" r="1.4" class="hp-star-cyan"><title>Pleione</title></circle>
@@ -34,7 +36,6 @@
       <circle cx="34" cy="20" r="1.2" class="hp-star-cyan"><title>Celaeno</title></circle>
       <circle cx="24" cy="9" r="1.1" class="hp-star-white"><title>Asterope</title></circle>
       <circle cx="21" cy="13" r="1.0" class="hp-star-white"><title>Asterope II</title></circle>
-      <path d="M12 34 L18 26 L23 19 L31 15 L34 20 L35 27 L28 32 L18 26" stroke-width=".5" class="hp-star-line"/>
     </svg>
     <div class="hp-mark-text"><b>尾沢 昂輝</b><span>Koki Ozawa</span></div>
   </a>
@@ -50,7 +51,7 @@
 <main class="hp-page">
 <div class="hp-eyebrow">Skills</div>
 <h1 class="hp-h1">スキル</h1>
-<div class="hp-h1-sub">Programming</div>
+<div class="hp-h1-sub">Programming · Tools · OS</div>
 
 <div class="hp-section">
   <h2><span class="hp-star">✦</span>レベルの目安 <small>Level Legend</small></h2>
@@ -135,7 +136,7 @@
     <h4>HTML</h4>
     <div class="cat">Frontend</div>
     <div class="stars">★★★<span style="opacity:.22">★★</span></div>
-    <p>本ページを作成できる程度には書ける。</p>
+    <p>基本的な部分は理解している。</p>
   </div>
 </div>
 <div class="hp-skill">
@@ -287,7 +288,7 @@
     <h4>Linux</h4>
     
     
-    <p>Windows Subsystem for Linuxやスーパーコンピュータでの使用。
+    <p>Windows Subsystem for Linuxやスーパーコンピュータや自作のUbuntuサーバーでの使用。
               コマンド操作が可能。
               利用OSは、Ubuntu、Red Hat。</p>
   </div>
@@ -303,6 +304,33 @@
   function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('hp-theme',t);btn.textContent=t==='dark'?'☀':'☽'}
   setTheme(getEff());
   btn.addEventListener('click',function(){setTheme(getEff()==='dark'?'light':'dark')});
+  var bg=document.querySelector('.hp-bg'),shootTimer;
+  function rand(min,max){return Math.random()*(max-min)+min}
+  function makeShootingStar(){
+    if(!bg||getEff()!=='dark'||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+    var s=document.createElement('span'),len=rand(90,220),travel=rand(340,620),dur=rand(900,1500),bright=rand(.45,1),dx=travel,dy=rand(travel*.3,travel*.58),angle=Math.atan2(dy,dx)*180/Math.PI;
+    s.className='hp-shooting-star';
+    s.style.left=rand(-12,82)+'vw';
+    s.style.top=rand(6,72)+'vh';
+    s.style.setProperty('--star-len',len+'px');
+    s.style.setProperty('--star-angle',angle+'deg');
+    s.style.setProperty('--star-dx',dx+'px');
+    s.style.setProperty('--star-dy',dy+'px');
+    s.style.setProperty('--star-duration',dur+'ms');
+    s.style.setProperty('--star-opacity',bright.toFixed(2));
+    s.style.setProperty('--star-tail-alpha',(bright*.34).toFixed(2));
+    s.style.setProperty('--star-head-alpha',(bright*.96).toFixed(2));
+    s.style.setProperty('--star-glow-alpha',(bright*.38).toFixed(2));
+    s.style.setProperty('--star-head-glow-alpha',(bright*.72).toFixed(2));
+    s.style.setProperty('--star-glow-size',rand(7,18)*bright+'px');
+    bg.appendChild(s);
+    setTimeout(function(){s.remove()},dur+200);
+  }
+  function scheduleShootingStar(){
+    clearTimeout(shootTimer);
+    shootTimer=setTimeout(function(){makeShootingStar();scheduleShootingStar()},rand(10000,30000));
+  }
+  scheduleShootingStar();
   var h=document.querySelector('.hp-top'),b=document.querySelector('.hp-burger');
   b.addEventListener('click',function(){var o=h.classList.toggle('is-open');b.setAttribute('aria-expanded',o)});
   document.querySelectorAll('.hp-tab').forEach(function(a){a.addEventListener('click',function(){h.classList.remove('is-open');b.setAttribute('aria-expanded','false')})});
