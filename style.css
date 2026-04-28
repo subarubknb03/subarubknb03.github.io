@@ -225,7 +225,7 @@ body{
   border-bottom:1px solid var(--line);
 }
 
-/* ── Circular portrait with orbit ── */
+/* ── Circular portrait with themed orbit ── */
 .hp-portrait{position:relative;aspect-ratio:1/1;width:240px;flex-shrink:0}
 .hp-portrait img{
   width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;
@@ -251,27 +251,31 @@ body{
   box-shadow:0 0 14px 6px var(--orbit-glow),0 0 5px 2px var(--gold);
 }
 .hp-portrait-comet::after{
-  content:"";position:absolute;inset:0;border-radius:50%;
-  background:conic-gradient(
-    from 0deg,
-    transparent 0deg,
-    transparent 278deg,
-    var(--comet-b) 308deg,
-    var(--comet-c) 342deg,
-    var(--comet-d) 358deg,
-    transparent 360deg
-  );
-  -webkit-mask:radial-gradient(circle at 50% 50%,
-    transparent calc(100% - 5px),
-    white calc(100% - 1px),
-    white 100%
-  );
-  mask:radial-gradient(circle at 50% 50%,
-    transparent calc(100% - 5px),
-    white calc(100% - 1px),
-    white 100%
-  );
+  display:none;
+  content:"";position:absolute;top:0;left:50%;
+  width:72px;height:9px;border-radius:999px;
+  transform:translate(-100%,-50%);
+  background:
+    radial-gradient(ellipse at 100% 50%,var(--comet-d) 0 10%,var(--comet-c) 26%,transparent 56%),
+    linear-gradient(90deg,transparent 0%,var(--comet-b) 36%,var(--comet-c) 72%,var(--comet-d) 100%);
+  clip-path:polygon(0 50%,66% 24%,100% 24%,100% 76%,66% 76%);
+  filter:blur(.2px);
+  opacity:.95;
 }
+@media(prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) .hp-portrait-comet::before{
+    width:11px;height:11px;
+    background:radial-gradient(circle at 38% 35%,#fff 0 22%,var(--gold) 58%,var(--comet-c) 100%);
+    box-shadow:0 0 18px 7px var(--orbit-glow),0 0 7px 2px var(--gold);
+  }
+  :root:not([data-theme="light"]) .hp-portrait-comet::after{display:block}
+}
+[data-theme="dark"] .hp-portrait-comet::before{
+  width:11px;height:11px;
+  background:radial-gradient(circle at 38% 35%,#fff 0 22%,var(--gold) 58%,var(--comet-c) 100%);
+  box-shadow:0 0 18px 7px var(--orbit-glow),0 0 7px 2px var(--gold);
+}
+[data-theme="dark"] .hp-portrait-comet::after{display:block}
 @keyframes hp-orbit{to{transform:rotate(360deg)}}
 
 /* ── Hero text side ── */
