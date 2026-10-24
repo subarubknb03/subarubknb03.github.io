@@ -52,7 +52,35 @@
 <div class="hp-hero">
   <div class="hp-portrait">
     <img src="../img/profile.jpeg" alt="Koki Ozawa"/>
-    <div class="hp-portrait-comet"></div>
+    <div class="hp-portrait-comet">
+      <svg class="hp-comet-tails" viewBox="-10 -35 120 70" aria-hidden="true">
+        <defs>
+          <linearGradient id="hp-ion-grad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="100" y2="0">
+            <stop offset="0" stop-color="#d6ecff" stop-opacity=".95"/>
+            <stop offset=".15" stop-color="#7fb0ff" stop-opacity=".8"/>
+            <stop offset=".6" stop-color="#4a6dff" stop-opacity=".35"/>
+            <stop offset="1" stop-color="#4a6dff" stop-opacity="0"/>
+          </linearGradient>
+          <linearGradient id="hp-dust-grad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="68" y2="13">
+            <stop offset="0" stop-color="#ffe2c2" stop-opacity=".75"/>
+            <stop offset=".35" stop-color="#d9946a" stop-opacity=".45"/>
+            <stop offset="1" stop-color="#b8704e" stop-opacity="0"/>
+          </linearGradient>
+          <radialGradient id="hp-coma-grad">
+            <stop offset="0" stop-color="#eafff8" stop-opacity=".85"/>
+            <stop offset=".45" stop-color="#5ff0c8" stop-opacity=".35"/>
+            <stop offset="1" stop-color="#5ff0c8" stop-opacity="0"/>
+          </radialGradient>
+          <filter id="hp-dust-blur" x="-30%" y="-60%" width="160%" height="220%"><feGaussianBlur stdDeviation="3"/></filter>
+          <filter id="hp-ion-glow" x="-10%" y="-200%" width="120%" height="500%"><feGaussianBlur stdDeviation="1.6"/></filter>
+          <filter id="hp-ion-blur" x="-10%" y="-200%" width="120%" height="500%"><feGaussianBlur stdDeviation=".35"/></filter>
+        </defs>
+        <path class="hp-dust-tail" d="M0 -1Q35 -3.5 70 -5Q77 10 66 28Q32 13 0 1.5Z" fill="url(#hp-dust-grad)" filter="url(#hp-dust-blur)"/>
+        <path class="hp-ion-tail" d="M0 -.9C27 -1.6 52 -1.2 70 -3C82 -4.2 91 -3.8 100 -6.5L100 -4C91 -1.6 82 -1.8 70 -.3C52 1.4 27 1.4 0 .9Z" fill="url(#hp-ion-grad)" filter="url(#hp-ion-glow)" opacity=".7"/>
+        <path class="hp-ion-tail" d="M0 -.9C27 -1.6 52 -1.2 70 -3C82 -4.2 91 -3.8 100 -6.5L100 -4C91 -1.6 82 -1.8 70 -.3C52 1.4 27 1.4 0 .9Z" fill="url(#hp-ion-grad)" filter="url(#hp-ion-blur)"/>
+        <circle cx="0" cy="0" r="9" fill="url(#hp-coma-grad)"/>
+      </svg>
+    </div>
   </div>
   <div class="hp-hero-content">
     <div class="hp-eyebrow">Profile</div>
@@ -192,8 +220,43 @@
   function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('hp-theme',t);btn.textContent=t==='dark'?'☀':'☽'}
   setTheme(getEff());
   btn.addEventListener('click',function(){setTheme(getEff()==='dark'?'light':'dark')});
+  var comet=document.querySelector('.hp-portrait-comet'),tails=comet&&comet.querySelector('.hp-comet-tails');
+  // Orbit the comet (30s/rev) and point its tails away from the theme button's sun (☀) in the same frame
+  (function orbit(now){
+    if(comet){
+      var th=now/30000%1*2*Math.PI;
+      comet.style.transform='rotate('+th+'rad)';
+      if(tails&&tails.getClientRects().length){
+        var r=comet.getBoundingClientRect(),R=comet.offsetWidth/2,
+            hx=r.left+r.width/2+R*Math.sin(th),hy=r.top+r.height/2-R*Math.cos(th),
+            s=btn.getBoundingClientRect(),
+            phi=Math.atan2(hy-(s.top+s.height/2),hx-(s.left+s.width/2));
+        tails.style.setProperty('--tail-rot',(phi-th)+'rad');
+      }
+      requestAnimationFrame(orbit);
+    }
+  })(performance.now());
   var bg=document.querySelector('.hp-bg'),shootTimer;
   function rand(min,max){return Math.random()*(max-min)+min}
+  var smokeDefs,smokeCount=0;
+  function svgEl(tag,attrs){var e=document.createElementNS('http://www.w3.org/2000/svg',tag);for(var k in attrs)e.setAttribute(k,attrs[k]);return e}
+  function makeSmokeFilter(delay,life){
+    if(!smokeDefs){var svg=svgEl('svg',{width:0,height:0,'aria-hidden':'true',style:'position:absolute'});smokeDefs=svgEl('defs',{});svg.appendChild(smokeDefs);bg.appendChild(svg)}
+    var f=svgEl('filter',{id:'hp-smoke-'+(++smokeCount),x:'-5%',y:'-50%',width:'110%',height:'200%'}),
+        disp=svgEl('feDisplacementMap',{'in':'SourceGraphic',in2:'noise',scale:2,xChannelSelector:'R',yChannelSelector:'G',result:'warped'}),
+        start=performance.now();
+    f.appendChild(svgEl('feTurbulence',{type:'fractalNoise',baseFrequency:'0.012 0.02',numOctaves:2,seed:Math.floor(rand(0,1000)),result:'noise'}));
+    f.appendChild(disp);
+    f.appendChild(svgEl('feColorMatrix',{'in':'noise',type:'matrix',values:'0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1.8 -0.35',result:'mask'}));
+    f.appendChild(svgEl('feComposite',{'in':'warped',in2:'mask',operator:'in'}));
+    smokeDefs.appendChild(f);
+    (function twist(now){
+      var p=Math.max(0,Math.min(1,(now-start-delay)/(life-delay)));
+      disp.setAttribute('scale',2+58*(1-(1-p)*(1-p)));
+      if(p<1&&f.isConnected)requestAnimationFrame(twist);
+    })(start);
+    return f;
+  }
   function makeShootingStar(){
     if(!bg||getEff()!=='dark'||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
     var s=document.createElement('span'),len=rand(90,220),travel=rand(340,620),dur=rand(900,1500),bright=rand(.45,1),dx=travel,dy=rand(travel*.3,travel*.58),angle=Math.atan2(dy,dx)*180/Math.PI;
@@ -211,6 +274,34 @@
     s.style.setProperty('--star-glow-alpha',(bright*.38).toFixed(2));
     s.style.setProperty('--star-head-glow-alpha',(bright*.72).toFixed(2));
     s.style.setProperty('--star-glow-size',rand(7,18)*bright+'px');
+    if(bright>=.9&&dur>=1000||Math.random()<.5){
+      s.classList.add('hp-uneven');
+      for(var trail=['transparent 0%'],i=1;i<=6;i++){
+        var pos=i/7*100+rand(-4,4);
+        trail.push('rgba(var(--star-rgb),'+(bright*pos/100*rand(.4,1)).toFixed(2)+') '+pos.toFixed(1)+'%');
+      }
+      trail.push('rgba(var(--star-head-rgb),'+(bright*.96).toFixed(2)+') 100%');
+      s.style.setProperty('--star-trail','linear-gradient(90deg,'+trail.join(',')+')');
+      s.style.setProperty('--star-flicker',rand(250,450)+'ms');
+      s.style.setProperty('--star-flicker-delay',-rand(0,450)+'ms');
+    }
+    if(bright>=.9&&dur>=1000){
+      s.classList.add('hp-fireball');
+      var t=document.createElement('span'),trainDur=rand(900,1200),smoke=makeSmokeFilter(dur,dur+trainDur);
+      t.className='hp-meteor-train';
+      t.style.left=s.style.left;
+      t.style.top=s.style.top;
+      t.style.setProperty('--star-len',len+'px');
+      t.style.setProperty('--train-len',len+Math.hypot(dx,dy)+'px');
+      t.style.setProperty('--star-angle',angle+'deg');
+      t.style.setProperty('--star-duration',dur+'ms');
+      t.style.setProperty('--train-duration',trainDur+'ms');
+      t.style.setProperty('--train-filter','url(#'+smoke.id+')');
+      t.style.setProperty('--train-alpha',(bright*.75).toFixed(2));
+      t.style.setProperty('--train-core-alpha',(bright*.85).toFixed(2));
+      bg.appendChild(t);
+      setTimeout(function(){t.remove();smoke.remove()},dur+trainDur+200);
+    }
     bg.appendChild(s);
     setTimeout(function(){s.remove()},dur+200);
   }

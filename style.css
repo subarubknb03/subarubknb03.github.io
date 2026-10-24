@@ -148,28 +148,114 @@ body{
   background-size:100% 100%;
 }
 .hp-shooting-star{
+  --star-rgb:168,216,255;--star-head-rgb:255,255,255;
   position:absolute;display:block;
   width:var(--star-len);height:2px;border-radius:999px;
-  background:linear-gradient(90deg,transparent 0%,rgba(168,216,255,var(--star-tail-alpha)) 34%,rgba(255,255,255,var(--star-head-alpha)) 100%);
-  box-shadow:0 0 var(--star-glow-size) rgba(168,216,255,var(--star-glow-alpha));
+  background:linear-gradient(90deg,transparent 0%,rgba(var(--star-rgb),var(--star-tail-alpha)) 34%,rgba(var(--star-head-rgb),var(--star-head-alpha)) 100%);
+  box-shadow:0 0 var(--star-glow-size) rgba(var(--star-rgb),var(--star-glow-alpha));
   opacity:0;will-change:transform,opacity;
   transform:translate3d(0,0,0) rotate(var(--star-angle));
   animation:hp-shooting-star var(--star-duration) ease-out forwards;
 }
+/* Uneven stars: --star-trail (built in JS) has randomly dimmed stops, plus a flicker */
+.hp-shooting-star.hp-uneven{
+  background:var(--star-trail);
+  animation:
+    hp-shooting-star var(--star-duration) ease-out forwards,
+    hp-star-flicker var(--star-flicker) linear var(--star-flicker-delay) infinite;
+}
 .hp-shooting-star::after{
   content:"";position:absolute;right:-1px;top:50%;
   width:4px;height:4px;border-radius:50%;
-  background:rgba(255,255,255,var(--star-head-alpha));
-  box-shadow:0 0 calc(var(--star-glow-size) * .75) rgba(255,255,255,var(--star-head-glow-alpha));
+  background:rgba(var(--star-head-rgb),var(--star-head-alpha));
+  box-shadow:0 0 calc(var(--star-glow-size) * .75) rgba(var(--star-head-rgb),var(--star-head-glow-alpha));
   transform:translateY(-50%);
+}
+/* Green fireball: bright, slow shooting stars that leave a meteor train */
+.hp-shooting-star.hp-fireball{
+  --star-rgb:130,171,110;--star-head-rgb:215,245,200;
+  animation-name:hp-fireball,hp-star-flicker;
+}
+/* Irregular brightness flicker while the star is burning */
+@keyframes hp-star-flicker{
+  0%,100%{filter:brightness(1)}
+  17%{filter:brightness(.7)}
+  31%{filter:brightness(1.15)}
+  52%{filter:brightness(.8)}
+  68%{filter:brightness(1.25)}
+  84%{filter:brightness(.75)}
+}
+/* Line near the head flares up just before the fireball burns out */
+.hp-shooting-star.hp-fireball::before{
+  content:"";position:absolute;right:0;top:50%;
+  width:40%;height:2px;border-radius:999px;
+  background:linear-gradient(90deg,transparent,rgba(var(--star-rgb),1) 45%,rgba(var(--star-head-rgb),1));
+  transform-origin:right center;
+  animation:hp-fireball-burst var(--star-duration) linear forwards;
+}
+@keyframes hp-fireball{
+  0%{opacity:0;transform:translate3d(0,0,0) rotate(var(--star-angle))}
+  10%,88%{opacity:var(--star-opacity)}
+  100%{opacity:0;transform:translate3d(var(--star-dx),var(--star-dy),0) rotate(var(--star-angle))}
+}
+@keyframes hp-fireball-burst{
+  0%,78%{opacity:0;transform:translateY(-50%) scaleY(1);filter:drop-shadow(0 0 0 rgba(var(--star-rgb),0))}
+  90%{opacity:1;transform:translateY(-50%) scaleY(2.5);filter:drop-shadow(0 0 calc(var(--star-glow-size) * .8) rgba(var(--star-rgb),.9))}
+  100%{opacity:0;transform:translateY(-50%) scaleY(1);filter:drop-shadow(0 0 0 rgba(var(--star-rgb),0))}
 }
 @keyframes hp-shooting-star{
   0%{opacity:0;transform:translate3d(0,0,0) rotate(var(--star-angle))}
   10%{opacity:var(--star-opacity)}
   100%{opacity:0;transform:translate3d(var(--star-dx),var(--star-dy),0) rotate(var(--star-angle))}
 }
+/* Meteor train: lingers along the path of bright, slow shooting stars */
+.hp-meteor-train{
+  position:absolute;display:block;
+  width:var(--train-len);height:120px;margin-top:-59px;
+  pointer-events:none;
+  transform-origin:calc(var(--star-len) / 2) 50%;
+  transform:rotate(var(--star-angle));
+  clip-path:inset(0 calc(100% - var(--star-len)) 0 0);
+  /* Per-train SVG turbulence filter (built in JS) twists and mottles the smoke */
+  filter:var(--train-filter);
+  animation:
+    hp-meteor-train-reveal var(--star-duration) ease-out forwards,
+    hp-meteor-train-fade var(--train-duration) ease-in var(--star-duration) forwards;
+}
+.hp-meteor-train::before,.hp-meteor-train::after{
+  content:"";position:absolute;left:0;right:0;top:50%;border-radius:999px;
+}
+/* Fresh train: sharp line in the fireball's green that fades out as it diffuses */
+.hp-meteor-train::before{
+  height:2.5px;margin-top:-1.25px;
+  background:linear-gradient(90deg,transparent calc(var(--star-len) * .8),rgba(130,171,110,var(--train-core-alpha)) 40%,rgba(185,225,170,var(--train-core-alpha)) 85%,transparent 100%);
+  filter:blur(.5px);
+  animation:hp-meteor-train-core calc(var(--train-duration) * .6) ease-in var(--star-duration) forwards;
+}
+/* Aged train: warm smoke, strongest toward the end of the path, that billows and drifts */
+.hp-meteor-train::after{
+  height:4px;margin-top:-2px;opacity:0;
+  background:linear-gradient(90deg,transparent calc(var(--star-len) * .6),rgba(225,200,180,calc(var(--train-alpha) * .35)) 40%,rgba(255,185,120,var(--train-alpha)) 75%,rgba(255,205,150,calc(var(--train-alpha) * .8)) 92%,transparent 100%);
+  filter:blur(1px);
+  animation:hp-meteor-train-smoke var(--train-duration) ease-out var(--star-duration) forwards;
+}
+@keyframes hp-meteor-train-reveal{
+  to{clip-path:inset(0 0 0 0)}
+}
+@keyframes hp-meteor-train-fade{
+  0%,55%{opacity:1}
+  100%{opacity:0}
+}
+@keyframes hp-meteor-train-smoke{
+  0%{opacity:0}
+  35%{opacity:1}
+  100%{opacity:1;transform:translateY(-4px) scaleY(2.5);filter:blur(2.5px)}
+}
+@keyframes hp-meteor-train-core{
+  to{opacity:0;transform:scaleY(1.8);filter:blur(1.5px)}
+}
 @media(prefers-reduced-motion:reduce){
-  .hp-shooting-star{display:none}
+  .hp-shooting-star,.hp-meteor-train{display:none}
 }
 
 /* ── Make content sit above background ── */
@@ -312,7 +398,7 @@ body{
 }
 .hp-portrait-comet{
   position:absolute;inset:-20px;border-radius:50%;
-  animation:hp-orbit 30s linear infinite;pointer-events:none;
+  pointer-events:none;
 }
 .hp-portrait-comet::before{
   content:"";position:absolute;top:0;left:50%;z-index:1;
@@ -321,33 +407,28 @@ body{
   background:radial-gradient(circle,#fff 0%,var(--gold) 60%);
   box-shadow:0 0 14px 6px var(--orbit-glow),0 0 5px 2px var(--gold);
 }
-.hp-portrait-comet::after{
+/* Ion tail (straight, anti-sunward) + dust tail (curved, trailing); aimed by JS */
+.hp-comet-tails{
   display:none;
-  content:"";position:absolute;top:0;left:50%;
-  width:72px;height:9px;border-radius:999px;
-  transform:translate(-100%,-50%);
-  background:
-    radial-gradient(ellipse at 100% 50%,var(--comet-d) 0 10%,var(--comet-c) 26%,transparent 56%),
-    linear-gradient(90deg,transparent 0%,var(--comet-b) 36%,var(--comet-c) 72%,var(--comet-d) 100%);
-  clip-path:polygon(0 50%,66% 32%,100% 24%,100% 76%,66% 68%);
-  filter:blur(.2px);
-  opacity:.95;
+  position:absolute;top:0;left:50%;
+  width:120px;height:70px;margin:-35px 0 0 -10px;overflow:visible;
+  transform-origin:10px 35px;
+  transform:rotate(var(--tail-rot,-90deg));
 }
 @media(prefers-color-scheme:dark){
   :root:not([data-theme="light"]) .hp-portrait-comet::before{
-    width:11px;height:11px;
-    background:radial-gradient(circle at 38% 35%,#fff 0 22%,var(--gold) 58%,var(--comet-c) 100%);
-    box-shadow:0 0 18px 7px var(--orbit-glow),0 0 7px 2px var(--gold);
+    width:8px;height:8px;
+    background:radial-gradient(circle,#fff 0 30%,#a8ffe6 60%,rgba(95,240,200,.6) 100%);
+    box-shadow:0 0 12px 4px rgba(95,240,200,.45),0 0 4px 1px #a8ffe6;
   }
-  :root:not([data-theme="light"]) .hp-portrait-comet::after{display:block}
+  :root:not([data-theme="light"]) .hp-comet-tails{display:block}
 }
 [data-theme="dark"] .hp-portrait-comet::before{
-  width:11px;height:11px;
-  background:radial-gradient(circle at 38% 35%,#fff 0 22%,var(--gold) 58%,var(--comet-c) 100%);
-  box-shadow:0 0 18px 7px var(--orbit-glow),0 0 7px 2px var(--gold);
+  width:8px;height:8px;
+  background:radial-gradient(circle,#fff 0 30%,#a8ffe6 60%,rgba(95,240,200,.6) 100%);
+  box-shadow:0 0 12px 4px rgba(95,240,200,.45),0 0 4px 1px #a8ffe6;
 }
-[data-theme="dark"] .hp-portrait-comet::after{display:block}
-@keyframes hp-orbit{to{transform:rotate(360deg)}}
+[data-theme="dark"] .hp-comet-tails{display:block}
 
 /* ── Hero text side ── */
 .hp-hero-content{display:flex;flex-direction:column}
