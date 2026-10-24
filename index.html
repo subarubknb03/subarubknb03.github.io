@@ -52,7 +52,35 @@
 <div class="hp-hero">
   <div class="hp-portrait">
     <img src="img/profile.jpeg" alt="Koki Ozawa"/>
-    <div class="hp-portrait-comet"></div>
+    <div class="hp-portrait-comet">
+      <svg class="hp-comet-tails" viewBox="-10 -35 120 70" aria-hidden="true">
+        <defs>
+          <linearGradient id="hp-ion-grad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="100" y2="0">
+            <stop offset="0" stop-color="#d6ecff" stop-opacity=".95"/>
+            <stop offset=".15" stop-color="#7fb0ff" stop-opacity=".8"/>
+            <stop offset=".6" stop-color="#4a6dff" stop-opacity=".35"/>
+            <stop offset="1" stop-color="#4a6dff" stop-opacity="0"/>
+          </linearGradient>
+          <linearGradient id="hp-dust-grad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="68" y2="13">
+            <stop offset="0" stop-color="#ffe2c2" stop-opacity=".75"/>
+            <stop offset=".35" stop-color="#d9946a" stop-opacity=".45"/>
+            <stop offset="1" stop-color="#b8704e" stop-opacity="0"/>
+          </linearGradient>
+          <radialGradient id="hp-coma-grad">
+            <stop offset="0" stop-color="#eafff8" stop-opacity=".85"/>
+            <stop offset=".45" stop-color="#5ff0c8" stop-opacity=".35"/>
+            <stop offset="1" stop-color="#5ff0c8" stop-opacity="0"/>
+          </radialGradient>
+          <filter id="hp-dust-blur" x="-30%" y="-60%" width="160%" height="220%"><feGaussianBlur stdDeviation="3"/></filter>
+          <filter id="hp-ion-glow" x="-10%" y="-200%" width="120%" height="500%"><feGaussianBlur stdDeviation="1.6"/></filter>
+          <filter id="hp-ion-blur" x="-10%" y="-200%" width="120%" height="500%"><feGaussianBlur stdDeviation=".35"/></filter>
+        </defs>
+        <path class="hp-dust-tail" d="M0 -1Q35 -3.5 70 -5Q77 10 66 28Q32 13 0 1.5Z" fill="url(#hp-dust-grad)" filter="url(#hp-dust-blur)"/>
+        <path class="hp-ion-tail" d="M0 -.9C27 -1.6 52 -1.2 70 -3C82 -4.2 91 -3.8 100 -6.5L100 -4C91 -1.6 82 -1.8 70 -.3C52 1.4 27 1.4 0 .9Z" fill="url(#hp-ion-grad)" filter="url(#hp-ion-glow)" opacity=".7"/>
+        <path class="hp-ion-tail" d="M0 -.9C27 -1.6 52 -1.2 70 -3C82 -4.2 91 -3.8 100 -6.5L100 -4C91 -1.6 82 -1.8 70 -.3C52 1.4 27 1.4 0 .9Z" fill="url(#hp-ion-grad)" filter="url(#hp-ion-blur)"/>
+        <circle cx="0" cy="0" r="9" fill="url(#hp-coma-grad)"/>
+      </svg>
+    </div>
   </div>
   <div class="hp-hero-content">
     <div class="hp-eyebrow">Profile</div>
@@ -193,6 +221,22 @@
   function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('hp-theme',t);btn.textContent=t==='dark'?'☀':'☽'}
   setTheme(getEff());
   btn.addEventListener('click',function(){setTheme(getEff()==='dark'?'light':'dark')});
+  var comet=document.querySelector('.hp-portrait-comet'),tails=comet&&comet.querySelector('.hp-comet-tails');
+  // Orbit the comet (30s/rev) and point its tails away from the theme button's sun (☀) in the same frame
+  (function orbit(now){
+    if(comet){
+      var th=now/30000%1*2*Math.PI;
+      comet.style.transform='rotate('+th+'rad)';
+      if(tails&&tails.getClientRects().length){
+        var r=comet.getBoundingClientRect(),R=comet.offsetWidth/2,
+            hx=r.left+r.width/2+R*Math.sin(th),hy=r.top+r.height/2-R*Math.cos(th),
+            s=btn.getBoundingClientRect(),
+            phi=Math.atan2(hy-(s.top+s.height/2),hx-(s.left+s.width/2));
+        tails.style.setProperty('--tail-rot',(phi-th)+'rad');
+      }
+      requestAnimationFrame(orbit);
+    }
+  })(performance.now());
   var bg=document.querySelector('.hp-bg'),shootTimer;
   function rand(min,max){return Math.random()*(max-min)+min}
   var smokeDefs,smokeCount=0;

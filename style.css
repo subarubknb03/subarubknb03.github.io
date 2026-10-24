@@ -398,7 +398,7 @@ body{
 }
 .hp-portrait-comet{
   position:absolute;inset:-20px;border-radius:50%;
-  animation:hp-orbit 30s linear infinite;pointer-events:none;
+  pointer-events:none;
 }
 .hp-portrait-comet::before{
   content:"";position:absolute;top:0;left:50%;z-index:1;
@@ -407,33 +407,28 @@ body{
   background:radial-gradient(circle,#fff 0%,var(--gold) 60%);
   box-shadow:0 0 14px 6px var(--orbit-glow),0 0 5px 2px var(--gold);
 }
-.hp-portrait-comet::after{
+/* Ion tail (straight, anti-sunward) + dust tail (curved, trailing); aimed by JS */
+.hp-comet-tails{
   display:none;
-  content:"";position:absolute;top:0;left:50%;
-  width:72px;height:9px;border-radius:999px;
-  transform:translate(-100%,-50%);
-  background:
-    radial-gradient(ellipse at 100% 50%,var(--comet-d) 0 10%,var(--comet-c) 26%,transparent 56%),
-    linear-gradient(90deg,transparent 0%,var(--comet-b) 36%,var(--comet-c) 72%,var(--comet-d) 100%);
-  clip-path:polygon(0 50%,66% 32%,100% 24%,100% 76%,66% 68%);
-  filter:blur(.2px);
-  opacity:.95;
+  position:absolute;top:0;left:50%;
+  width:120px;height:70px;margin:-35px 0 0 -10px;overflow:visible;
+  transform-origin:10px 35px;
+  transform:rotate(var(--tail-rot,-90deg));
 }
 @media(prefers-color-scheme:dark){
   :root:not([data-theme="light"]) .hp-portrait-comet::before{
-    width:11px;height:11px;
-    background:radial-gradient(circle at 38% 35%,#fff 0 22%,var(--gold) 58%,var(--comet-c) 100%);
-    box-shadow:0 0 18px 7px var(--orbit-glow),0 0 7px 2px var(--gold);
+    width:8px;height:8px;
+    background:radial-gradient(circle,#fff 0 30%,#a8ffe6 60%,rgba(95,240,200,.6) 100%);
+    box-shadow:0 0 12px 4px rgba(95,240,200,.45),0 0 4px 1px #a8ffe6;
   }
-  :root:not([data-theme="light"]) .hp-portrait-comet::after{display:block}
+  :root:not([data-theme="light"]) .hp-comet-tails{display:block}
 }
 [data-theme="dark"] .hp-portrait-comet::before{
-  width:11px;height:11px;
-  background:radial-gradient(circle at 38% 35%,#fff 0 22%,var(--gold) 58%,var(--comet-c) 100%);
-  box-shadow:0 0 18px 7px var(--orbit-glow),0 0 7px 2px var(--gold);
+  width:8px;height:8px;
+  background:radial-gradient(circle,#fff 0 30%,#a8ffe6 60%,rgba(95,240,200,.6) 100%);
+  box-shadow:0 0 12px 4px rgba(95,240,200,.45),0 0 4px 1px #a8ffe6;
 }
-[data-theme="dark"] .hp-portrait-comet::after{display:block}
-@keyframes hp-orbit{to{transform:rotate(360deg)}}
+[data-theme="dark"] .hp-comet-tails{display:block}
 
 /* ── Hero text side ── */
 .hp-hero-content{display:flex;flex-direction:column}
