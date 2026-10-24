@@ -195,6 +195,25 @@
   btn.addEventListener('click',function(){setTheme(getEff()==='dark'?'light':'dark')});
   var bg=document.querySelector('.hp-bg'),shootTimer;
   function rand(min,max){return Math.random()*(max-min)+min}
+  var smokeDefs,smokeCount=0;
+  function svgEl(tag,attrs){var e=document.createElementNS('http://www.w3.org/2000/svg',tag);for(var k in attrs)e.setAttribute(k,attrs[k]);return e}
+  function makeSmokeFilter(delay,life){
+    if(!smokeDefs){var svg=svgEl('svg',{width:0,height:0,'aria-hidden':'true',style:'position:absolute'});smokeDefs=svgEl('defs',{});svg.appendChild(smokeDefs);bg.appendChild(svg)}
+    var f=svgEl('filter',{id:'hp-smoke-'+(++smokeCount),x:'-5%',y:'-50%',width:'110%',height:'200%'}),
+        disp=svgEl('feDisplacementMap',{'in':'SourceGraphic',in2:'noise',scale:2,xChannelSelector:'R',yChannelSelector:'G',result:'warped'}),
+        start=performance.now();
+    f.appendChild(svgEl('feTurbulence',{type:'fractalNoise',baseFrequency:'0.012 0.02',numOctaves:2,seed:Math.floor(rand(0,1000)),result:'noise'}));
+    f.appendChild(disp);
+    f.appendChild(svgEl('feColorMatrix',{'in':'noise',type:'matrix',values:'0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1.8 -0.35',result:'mask'}));
+    f.appendChild(svgEl('feComposite',{'in':'warped',in2:'mask',operator:'in'}));
+    smokeDefs.appendChild(f);
+    (function twist(now){
+      var p=Math.max(0,Math.min(1,(now-start-delay)/(life-delay)));
+      disp.setAttribute('scale',2+58*(1-(1-p)*(1-p)));
+      if(p<1&&f.isConnected)requestAnimationFrame(twist);
+    })(start);
+    return f;
+  }
   function makeShootingStar(){
     if(!bg||getEff()!=='dark'||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
     var s=document.createElement('span'),len=rand(90,220),travel=rand(340,620),dur=rand(900,1500),bright=rand(.45,1),dx=travel,dy=rand(travel*.3,travel*.58),angle=Math.atan2(dy,dx)*180/Math.PI;
@@ -212,6 +231,34 @@
     s.style.setProperty('--star-glow-alpha',(bright*.38).toFixed(2));
     s.style.setProperty('--star-head-glow-alpha',(bright*.72).toFixed(2));
     s.style.setProperty('--star-glow-size',rand(7,18)*bright+'px');
+    if(bright>=.9&&dur>=1000||Math.random()<.5){
+      s.classList.add('hp-uneven');
+      for(var trail=['transparent 0%'],i=1;i<=6;i++){
+        var pos=i/7*100+rand(-4,4);
+        trail.push('rgba(var(--star-rgb),'+(bright*pos/100*rand(.4,1)).toFixed(2)+') '+pos.toFixed(1)+'%');
+      }
+      trail.push('rgba(var(--star-head-rgb),'+(bright*.96).toFixed(2)+') 100%');
+      s.style.setProperty('--star-trail','linear-gradient(90deg,'+trail.join(',')+')');
+      s.style.setProperty('--star-flicker',rand(250,450)+'ms');
+      s.style.setProperty('--star-flicker-delay',-rand(0,450)+'ms');
+    }
+    if(bright>=.9&&dur>=1000){
+      s.classList.add('hp-fireball');
+      var t=document.createElement('span'),trainDur=rand(900,1200),smoke=makeSmokeFilter(dur,dur+trainDur);
+      t.className='hp-meteor-train';
+      t.style.left=s.style.left;
+      t.style.top=s.style.top;
+      t.style.setProperty('--star-len',len+'px');
+      t.style.setProperty('--train-len',len+Math.hypot(dx,dy)+'px');
+      t.style.setProperty('--star-angle',angle+'deg');
+      t.style.setProperty('--star-duration',dur+'ms');
+      t.style.setProperty('--train-duration',trainDur+'ms');
+      t.style.setProperty('--train-filter','url(#'+smoke.id+')');
+      t.style.setProperty('--train-alpha',(bright*.75).toFixed(2));
+      t.style.setProperty('--train-core-alpha',(bright*.85).toFixed(2));
+      bg.appendChild(t);
+      setTimeout(function(){t.remove();smoke.remove()},dur+trainDur+200);
+    }
     bg.appendChild(s);
     setTimeout(function(){s.remove()},dur+200);
   }
